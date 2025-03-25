@@ -1,6 +1,7 @@
 package com.mateuszsiwy.swift_code_service.service;
 
 import com.mateuszsiwy.swift_code_service.dto.CountrySwiftCodesResponse;
+import com.mateuszsiwy.swift_code_service.dto.MessageResponse;
 import com.mateuszsiwy.swift_code_service.dto.SwiftCodeBranchResponse;
 import com.mateuszsiwy.swift_code_service.dto.SwiftCodeHeadquartersResponse;
 import com.mateuszsiwy.swift_code_service.entity.SwiftCode;
@@ -9,6 +10,7 @@ import com.mateuszsiwy.swift_code_service.repository.SwiftCodeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,5 +58,30 @@ public class SwiftCodeService {
         response.setCountryISO2(branch.getCountryISO2());
         response.setHeadquarter(branch.isHeadquarter());
         return response;
+    }
+
+    @Transactional
+    public MessageResponse addSwiftCode(SwiftCode swiftCode) {
+
+        swiftCode.setCountryISO2(swiftCode.getCountryISO2().toUpperCase());
+        swiftCode.setCountryName(swiftCode.getCountryName().toUpperCase());
+
+
+        if (!swiftCode.isHeadquarter() && swiftCode.getSwiftCode().length() >= 8) {
+            String headCode = swiftCode.getSwiftCode().substring(0, 8) + "XXX";
+            swiftCodeRepository.findBySwiftCode(headCode).ifPresent(swiftCode::setHeadquarters);
+        }
+
+        swiftCodeRepository.save(swiftCode);
+        return new MessageResponse("Swift code added successfully");
+    }
+
+    @Transactional
+    public MessageResponse deleteSwiftCode(String swiftCode) {
+        SwiftCode code = swiftCodeRepository.findBySwiftCode(swiftCode)
+                .orElseThrow(() -> new EntityNotFoundException("Swift code not found: " + swiftCode));
+
+        swiftCodeRepository.delete(code);
+        return new MessageResponse("Swift code deleted successfully");
     }
 }
