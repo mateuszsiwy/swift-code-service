@@ -3,7 +3,7 @@ package com.mateuszsiwy.swift_code_service.service;
 import com.mateuszsiwy.swift_code_service.dto.CountrySwiftCodesResponse;
 import com.mateuszsiwy.swift_code_service.dto.MessageResponse;
 import com.mateuszsiwy.swift_code_service.dto.SwiftCodeBranchResponse;
-import com.mateuszsiwy.swift_code_service.dto.SwiftCodeHeadquartersResponse;
+import com.mateuszsiwy.swift_code_service.dto.SwiftCodeResponse;
 import com.mateuszsiwy.swift_code_service.entity.SwiftCode;
 import com.mateuszsiwy.swift_code_service.exception.SwiftCodeNotFoundException;
 import com.mateuszsiwy.swift_code_service.repository.SwiftCodeRepository;
@@ -20,11 +20,11 @@ import java.util.stream.Collectors;
 public class SwiftCodeService {
     private final SwiftCodeRepository swiftCodeRepository;
 
-    public SwiftCodeHeadquartersResponse getSwiftCodeDetails(String swiftCode) {
+    public SwiftCodeResponse getSwiftCodeDetails(String swiftCode) {
         SwiftCode code = swiftCodeRepository.findBySwiftCode(swiftCode)
                 .orElseThrow(() -> new SwiftCodeNotFoundException("Swift code not found"));
 
-        SwiftCodeHeadquartersResponse response = new SwiftCodeHeadquartersResponse();
+        SwiftCodeResponse response = new SwiftCodeResponse();
         response.setSwiftCode(code.getSwiftCode());
         response.setBankName(code.getBankName());
         response.setAddress(code.getAddress());
@@ -45,7 +45,7 @@ public class SwiftCodeService {
         }
         CountrySwiftCodesResponse response = new CountrySwiftCodesResponse();
         response.setCountryISO2(countryISO2);
-        response.setCountryName(codes.get(0).getCountryName().toString());
+        response.setCountryName(codes.getFirst().getCountryName());
         response.setBranches(codes.stream().map(this::convertToSwiftCodeBranchResponse).collect(Collectors.toList()));
         return response;
     }

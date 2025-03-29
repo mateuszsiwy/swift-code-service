@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SwiftCodeHeadquartersResponse {
+public class SwiftCodeResponse {
     private String swiftCode;
     private String bankName;
     private String address;
