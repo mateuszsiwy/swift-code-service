@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface SwiftCodeRepository extends JpaRepository<SwiftCode, String> {
     List<SwiftCode> findByCountryISO2(String countryISO2);
     Optional<SwiftCode> findBySwiftCode(String swiftCode);
+    Optional<List<SwiftCode>> findBySwiftCodeStartsWith(String swiftCodeStartsWith);
 }

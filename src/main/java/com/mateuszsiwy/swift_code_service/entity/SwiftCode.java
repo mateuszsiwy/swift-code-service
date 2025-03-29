@@ -28,7 +28,7 @@ public class SwiftCode {
     @JoinColumn(name = "headquarters_swift_code")
     private SwiftCode headquarters;
 
-    @OneToMany(mappedBy = "headquarters", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "headquarters")
     private List<SwiftCode> branches = new ArrayList<>();
 
 
