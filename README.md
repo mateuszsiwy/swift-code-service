@@ -1,68 +1,68 @@
 # SwiftCode Service
 
-Serwis umożliwiający zarządzanie i wyszukiwanie kodów SWIFT banków. Aplikacja ładuje dane z publicznego arkusza Google Sheets i udostępnia API REST do interakcji z tymi danymi.
+A service that enables the management and search of bank SWIFT codes. The application loads data from a public Google Sheets document and provides a REST API for interacting with this data.
 
-## Opis projektu
+## Project Description
 
-SwiftCode Service to aplikacja Spring Boot, która:
-- Zarządza bazą danych kodów SWIFT banków
-- Przechowuje relacje pomiędzy centralami i oddziałami banków
-- Umożliwia wyszukiwanie kodów SWIFT według kraju lub bezpośrednio po kodzie
-- Dostarcza API REST do pobierania i zarządzania danymi
+SwiftCode Service is a Spring Boot application that:
+- Manages a database of bank SWIFT codes
+- Stores relationships between bank headquarters and branches
+- Allows searching for SWIFT codes by country or directly by code
+- Provides a REST API for retrieving and managing data
 
-## Uwaga dotycząca bezpieczeństwa
+## Security Notice
 
-W tym repozytorium zamieszczone zostały pliki konfiguracyjne, takie jak `application.properties` oraz `docker-compose.yml`, które w normalnych warunkach produkcyjnych nie powinny być publikowane. Zdecydowałem się je udostępnić, aby ułatwić osobom testującym szybkie i bezproblemowe uruchomienie aplikacji. Aplikacja działa wyłącznie lokalnie, a używany Google Sheets jest publiczny.
+This repository includes configuration files such as `application.properties` and `docker-compose.yml`, which, under normal production conditions, should not be publicly available. However, I have decided to include them to make it easier for testers to quickly and seamlessly run the application. The application runs locally, and the Google Sheets document used is public.
 
-W prawdziwym środowisku produkcyjnym pliki te powinny zostać zastąpione przez zmienne środowiskowe lub zewnętrzne systemy konfiguracyjne, a wrażliwe dane takie jak hasła i klucze API powinny być przechowywane w bezpieczny sposób.
+In a real production environment, these files should be replaced with environment variables or external configuration systems, and sensitive data such as passwords and API keys should be stored securely.
 
-## Wymagania
+## Requirements
 
 - Java 21
-- Docker i Docker Compose
-- PostgreSQL (uruchamiany przez Docker)
-- Maven (opcjonalnie - można użyć wbudowanego wrappera mvnw)
+- Docker and Docker Compose
+- PostgreSQL (run via Docker)
+- Maven (optional - you can use the built-in `mvnw` wrapper)
 
-## Uruchomienie aplikacji
+## Running the Application
 
-### Za pomocą skryptu
+### Using a Script
 
-**Na systemach Unix/Linux/macOS:**
+**On Unix/Linux/macOS systems:**
 ```
 ./run.sh
 ```
 
-**Na systemach Windows:**
+**On Windows systems:**
 ```
 ./run.bat
 ```
 
-### Ręczne uruchomienie
+### Manual Execution
 
-1. Zbuduj projekt:
+1. Build the project:
 ```
 ./mvnw clean package -DskipTests
 ```
 
-2. Uruchom kontenery Docker:
+2. Start the Docker containers:
 ```
 docker-compose up -d --build
 ```
 
-3. Aplikacja będzie dostępna pod adresem: http://localhost:8080
+3. The application will be available at: http://localhost:8080
 
-## Endpointy API
+## API Endpoints
 
-### 1. Pobierz szczegóły kodu SWIFT
+### 1. Retrieve SWIFT Code Details
 
 ```
 GET /v1/swift-codes/{swiftCode}
 ```
 
-**Parametry:**
-- `swiftCode` - Kod SWIFT banku (np. PKOPPLPWXXX)
+**Parameters:**
+- `swiftCode` - The bank's SWIFT code (e.g., PKOPPLPWXXX)
 
-**Odpowiedź sukcesu (200 OK):**
+**Successful Response (200 OK):**
 ```json
 {
     "swiftCode": "BIGBPLPWXXX",
@@ -84,18 +84,18 @@ GET /v1/swift-codes/{swiftCode}
 }
 ```
 
-**Odpowiedź błędu (404 Not Found)** - gdy kod SWIFT nie istnieje
+**Error Response (404 Not Found)** - when the SWIFT code does not exist
 
-### 2. Pobierz kody SWIFT dla kraju
+### 2. Retrieve SWIFT Codes for a Country
 
 ```
 GET /v1/swift-codes/country/{countryISO2}
 ```
 
-**Parametry:**
-- `countryISO2` - Dwuliterowy kod ISO kraju (np. PL, DE, US)
+**Parameters:**
+- `countryISO2` - Two-letter ISO country code (e.g., PL, DE, US)
 
-**Odpowiedź sukcesu (200 OK):**
+**Successful Response (200 OK):**
 ```json
 {
   "countryISO2": "PL",
@@ -121,15 +121,15 @@ GET /v1/swift-codes/country/{countryISO2}
 }
 ```
 
-**Odpowiedź błędu (404 Not Found)** - gdy dla danego kraju nie ma kodów SWIFT
+**Error Response (404 Not Found)** - when no SWIFT codes exist for the given country
 
-### 3. Dodaj nowy kod SWIFT
+### 3. Add a New SWIFT Code
 
 ```
 POST /v1/swift-codes
 ```
 
-**Przykładowe ciało żądania:**
+**Example Request Body:**
 ```json
 {
   "swiftCode": "string",
@@ -141,42 +141,42 @@ POST /v1/swift-codes
 }
 ```
 
-**Odpowiedź sukcesu (200 OK):**
+**Successful Response (200 OK):**
 ```
 Swift code added successfully
 ```
 
-**Odpowiedź błędu (500 Internal Server Error)** - w przypadku błędu podczas dodawania
+**Error Response (500 Internal Server Error)** - in case of an error during addition
 
-### 4. Usuń kod SWIFT
+### 4. Delete a SWIFT Code
 
 ```
 DELETE /v1/swift-codes/{swiftCode}
 ```
 
-**Parametry:**
-- `swiftCode` - Kod SWIFT do usunięcia
+**Parameters:**
+- `swiftCode` - The SWIFT code to delete
 
-**Odpowiedź sukcesu (200 OK):**
+**Successful Response (200 OK):**
 ```
 Swift code deleted successfully
 ```
 
-**Odpowiedź błędu (400 Bad Request)** - gdy kod nie istnieje
-**Odpowiedź błędu (500 Internal Server Error)** - w przypadku innego błędu
+**Error Response (400 Bad Request)** - when the code does not exist
+**Error Response (500 Internal Server Error)** - in case of another error
 
-## Struktura projektu
+## Project Structure
 
-- **Entity**: Model danych kodu SWIFT
-- **Repository**: Dostęp do bazy danych
-- **Service**: Logika biznesowa
-- **Controller**: Endpointy REST API
-- **DTO**: Obiekty transferu danych
-- **Loader**: Ładowanie danych z Google Sheets
+- **Entity**: SWIFT code data model
+- **Repository**: Database access
+- **Service**: Business logic
+- **Controller**: REST API endpoints
+- **DTO**: Data Transfer Objects
+- **Loader**: Data loading from Google Sheets
 
-## Konfiguracja
+## Configuration
 
-Aplikacja wykorzystuje plik `application.properties` do konfiguracji. Główne parametry:
+The application uses the `application.properties` file for configuration. Main parameters:
 
 ```
 spring.datasource.url=jdbc:postgresql://localhost:5432/swiftcode
@@ -185,15 +185,14 @@ spring.datasource.password=postgres
 google.sheet.url=https://docs.google.com/spreadsheets/d/1iFFqsu_xruvVKzXAadAAlDBpIuU51v-pfIEU5HeGa8w
 ```
 
-## Testy
+## Testing
 
-Projekt zawiera testy integracyjne i jednostkowe, które można uruchomić za pomocą:
-
+The project includes integration and unit tests, which can be run using:
 ```
 ./mvnw test
 ```
 
-
 ## CI/CD
 
-Projekt zawiera konfigurację GitHub Actions w pliku `.github/workflows/java-tests.yml`, która automatycznie uruchamia testy przy każdym push i pull request.
+The project includes GitHub Actions configuration in the `.github/workflows/java-tests.yml` file, which automatically runs tests on every push and pull request.
+
