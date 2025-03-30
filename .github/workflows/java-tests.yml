@@ -10,6 +10,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: swiftcode
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
     - uses: actions/checkout@v3
 
@@ -18,9 +33,14 @@ jobs:
       with:
         java-version: '21'
         distribution: 'temurin'
+        cache: maven
 
-    - name: Build backend with Maven
-      run: mvn -f pom.xml clean install
+    - name: Build and test with Maven
+      run: mvn -B clean verify
+      env:
+        SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/swiftcode
+        SPRING_DATASOURCE_USERNAME: postgres
+        SPRING_DATASOURCE_PASSWORD: postgres
+        SPRING_JPA_HIBERNATE_DDL_AUTO: update
+        SPRING_PROFILES_ACTIVE: test
 
-    - name: Run backend tests
-      run: mvn -f pom.xml test
