@@ -77,10 +77,10 @@ GET /v1/swift-codes/{swiftCode}
             "address": "HARMONY CENTER UL. STANISLAWA ZARYNA 2A WARSZAWA, MAZOWIECKIE, 02-593",
             "countryISO2": "PL",
             "countryName": "POLAND",
-            "headquarter": false
+            "isHeadquarter": false
         }
     ],
-    "headquarter": true
+    "isHeadquarter": true
 }
 ```
 
@@ -107,7 +107,7 @@ GET /v1/swift-codes/country/{countryISO2}
       "address": "ul. Puławska 15, Warszawa",
       "countryISO2": "PL",
       "countryName": "POLAND",
-      "headquarter": true
+      "isHeadquarter": true
     },
     {
       "swiftCode": "PKOPPLPW",
@@ -115,7 +115,7 @@ GET /v1/swift-codes/country/{countryISO2}
       "address": "ul. Jakaś 10, Gdańsk",
       "countryISO2": "PL",
       "countryName": "POLAND",
-      "headquarter": false
+      "isHeadquarter": false
     }
   ]
 }
@@ -137,7 +137,7 @@ POST /v1/swift-codes
   "address": "string",
   "countryISO2": "string",
   "countryName": "string",
-  "headquarter": bool
+  "isHeadquarter": bool
 }
 ```
 
