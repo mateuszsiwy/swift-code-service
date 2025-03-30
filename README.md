@@ -32,6 +32,10 @@ SwiftCode Service is a Spring Boot application that:
 ```
 ./run.sh
 ```
+If above ends in error run the command below and then ./run.sh again.
+```
+sed -i 's/\r$//' run.sh
+```
 
 **On Windows systems:**
 ```
