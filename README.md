@@ -10,9 +10,11 @@ SwiftCode Service to aplikacja Spring Boot, która:
 - Umożliwia wyszukiwanie kodów SWIFT według kraju lub bezpośrednio po kodzie
 - Dostarcza API REST do pobierania i zarządzania danymi
 
-## Dlaczego application.properties oraz dane z docker-compose są w repozytorium?
+## Uwaga dotycząca bezpieczeństwa
 
-W pełni zdaję sobię sprawę, że niektóre pliki będące w tym repozytorium w większości sytuacji nigdy nie powinny być publikowane. Zdecydowałem się jednak je opublikować aby ułatwić osobie sprawdzającej moje zadanie przetestowania go szybko oraz bezproblemowo.
+W tym repozytorium zamieszczone zostały pliki konfiguracyjne, takie jak `application.properties` oraz `docker-compose.yml`, które w normalnych warunkach produkcyjnych nie powinny być publikowane. Zdecydowałem się je udostępnić, aby ułatwić osobom testującym szybkie i bezproblemowe uruchomienie aplikacji. Aplikacja działa wyłącznie lokalnie, a używany Google Sheets jest publiczny.
+
+W prawdziwym środowisku produkcyjnym pliki te powinny zostać zastąpione przez zmienne środowiskowe lub zewnętrzne systemy konfiguracyjne, a wrażliwe dane takie jak hasła i klucze API powinny być przechowywane w bezpieczny sposób.
 
 ## Wymagania
 
