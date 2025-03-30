@@ -56,6 +56,7 @@ public class SwiftCodeService {
         response.setBankName(branch.getBankName());
         response.setAddress(branch.getAddress());
         response.setCountryISO2(branch.getCountryISO2());
+        response.setCountryName(branch.getCountryName());
         response.setHeadquarter(branch.isHeadquarter());
         return response;
     }
