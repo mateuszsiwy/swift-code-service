@@ -2,6 +2,13 @@
 
 A service that enables the management and search of bank SWIFT codes. The application loads data from a public Google Sheets document and provides a REST API for interacting with this data.
 
+## Security Notice
+
+This repository includes configuration files such as `application.properties` and `docker-compose.yml`, which, under normal production conditions, should not be publicly available. However, I have decided to include them to make it easier for testers to quickly and seamlessly run the application. The application runs locally, and the Google Sheets document used is public.
+
+In a real production environment, these files should be replaced with environment variables or external configuration systems, and sensitive data such as passwords and API keys should be stored securely.
+
+
 ## Project Description
 
 SwiftCode Service is a Spring Boot application that:
@@ -9,12 +16,6 @@ SwiftCode Service is a Spring Boot application that:
 - Stores relationships between bank headquarters and branches
 - Allows searching for SWIFT codes by country or directly by code
 - Provides a REST API for retrieving and managing data
-
-## Security Notice
-
-This repository includes configuration files such as `application.properties` and `docker-compose.yml`, which, under normal production conditions, should not be publicly available. However, I have decided to include them to make it easier for testers to quickly and seamlessly run the application. The application runs locally, and the Google Sheets document used is public.
-
-In a real production environment, these files should be replaced with environment variables or external configuration systems, and sensitive data such as passwords and API keys should be stored securely.
 
 ## Requirements
 
