@@ -82,7 +82,7 @@ public class SwiftCodeControllerIntegrationTest {
                 .andExpect(jsonPath("$.swiftCode").value("TESTTESTXXX"))
                 .andExpect(jsonPath("$.bankName").value("MBANK SA"))
                 .andExpect(jsonPath("$.countryISO2").value("PL"))
-                .andExpect(jsonPath("$.headquarter").value(true))
+                .andExpect(jsonPath("$.isHeadquarter").value(true))
                 .andExpect(jsonPath("$.branches", hasSize(1)))
                 .andExpect(jsonPath("$.branches[0].swiftCode").value("TESTTEST"));
     }

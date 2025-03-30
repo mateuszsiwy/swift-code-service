@@ -1,5 +1,6 @@
 package com.mateuszsiwy.swift_code_service.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class SwiftCode {
     private String address;
     private String countryISO2;
     private String countryName;
+    @JsonProperty("isHeadquarter")
     private boolean isHeadquarter;
 
     @ManyToOne(fetch = FetchType.LAZY)
