@@ -2,6 +2,7 @@ package com.mateuszsiwy.swift_code_service.loader;
 
 import com.mateuszsiwy.swift_code_service.entity.SwiftCode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -19,12 +20,18 @@ public class GoogleSheetDataLoader {
     @Value("${google.sheet.url}")
     private String googleSheetUrl;
 
+    private final RestTemplate restTemplate;
+
+    @Autowired
+    public GoogleSheetDataLoader(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
     public List<SwiftCode> loadDataFromGoogleSheet() {
         log.info("Loading data from Google Sheet: {}", googleSheetUrl);
         List<SwiftCode> swiftCodes = new ArrayList<>();
 
         String csvUrl = googleSheetUrl + "/export?format=csv";
-        RestTemplate restTemplate = new RestTemplate();
         String csvData = restTemplate.getForObject(csvUrl, String.class);
 
         if (csvData == null || csvData.isEmpty()) {
