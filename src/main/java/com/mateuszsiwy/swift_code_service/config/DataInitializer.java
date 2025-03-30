@@ -32,11 +32,11 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) {
         log.info("Running DataInitializer...");
         try {
-            swiftCodeRepository.deleteAll();
-//            if (swiftCodeRepository.count() > 0) {
-//                log.info("Database already initialized, skipping data load");
-//                return;
-//            }
+//            swiftCodeRepository.deleteAll();
+            if (swiftCodeRepository.count() > 0) {
+                log.info("Database already initialized, skipping data load");
+                return;
+            }
             swiftCodeRepository.flush();
 
             entityManager.clear();
