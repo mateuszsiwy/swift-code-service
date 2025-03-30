@@ -79,7 +79,7 @@ public class SwiftCodeService {
     @Transactional
     public MessageResponse deleteSwiftCode(String swiftCode) {
         SwiftCode code = swiftCodeRepository.findBySwiftCode(swiftCode)
-                .orElseThrow(() -> new EntityNotFoundException("Swift code not found: " + swiftCode));
+                .orElseThrow(() -> new SwiftCodeNotFoundException("Swift code not found: " + swiftCode));
 
         swiftCodeRepository.delete(code);
         return new MessageResponse("Swift code deleted successfully");
